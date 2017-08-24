@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const models = require('../models');
 const util = require('./util.server.controller');
-const globalController = require('./global.server.controller');
 const socketInterface = require('./socket-interface');
 
 module.exports.getMessages = (req, res) => {
@@ -41,7 +40,7 @@ module.exports.newMessage = (req, res) => {
     };
 
     const message = req.body;
-    message.num_read = globalController.getNumOnlineUsers();
+    message.num_read = null;
     
     models.message.create(message)
     .then(message => {
