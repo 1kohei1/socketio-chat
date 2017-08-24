@@ -5,8 +5,14 @@
   "scripts": {
     "start": "node index.js"
   },
+  "engines": {
+    "node": "7.8.0",
+    "npm": "4.6.1"
+  },
   "dependencies": {
     "express": "^4.15.2",
+    "grab": "0.0.7",
+    "lodash": "^4.17.4",
     "socket.io": "^2.0.3"
   }
 }

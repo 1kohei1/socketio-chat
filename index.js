@@ -1,19 +1,23 @@
-var app = require('express')();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+const app = require('express')();
+const path = require('path');
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+const _ = require('lodash');
 const socketInterface = require('./server/controllers/socket-interface');
+const helper = require('./helper.js');
 
 // Set socket io to the file
 socketInterface.setSocketIo(io);
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/client/index.html');
+// Setup routes
+_.forEach(helper.getGlobbedFiles('./server/routes/*.js'), function(routePath) {
+    require(path.resolve(routePath))(app);
 });
 
-app.get('/hello', (req, res) => {
-    socketInterface.notify('chat message', 'This is emitted by API call');
-    res.send(200);
-})
+// If other routes are requested, return the file in the client folder
+app.get('*', (req, res) => {
+    res.sendFile(__dirname + `/client/${req.originalUrl}`);
+});
 
 io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
