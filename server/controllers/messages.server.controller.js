@@ -4,6 +4,33 @@ const util = require('./util.server.controller');
 const globalController = require('./global.server.controller');
 const socketInterface = require('./socket-interface');
 
+module.exports.getMessages = (req, res) => {
+    const apiData = {};
+    const apiInfo = {
+        tag: 'GET_MESSAGE',
+        logInfo: {
+            page: req.query.page
+        }
+    };
+
+    // Do not do pagination at this point.
+    models.message.find()
+    .sort({sent_at: 'desc'})
+    .populate('sender')
+    .then(messages => {
+        util.logSuccess(apiInfo);
+        res.json({
+            success: true,
+            data: {
+                messages
+            }
+        });
+    })
+    .catch(err => {
+        util.logFailure(err, res, apiInfo);
+    });
+}
+
 module.exports.newMessage = (req, res) => {
     const apiData = {};
     const apiInfo = {
