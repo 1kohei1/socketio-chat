@@ -10,6 +10,7 @@
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
+    <script src="lodash.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="api-interface.js"></script>
@@ -17,7 +18,19 @@
       $(function () {
         var socket = io();
 
-        const isUserDefined = localStorage.getItem('user');
+        const user = localStorage.getItem('user');
+
+        if (isUserDefined) {
+
+        } else {
+          api.createUser()
+          .then(newUser => {
+            localStorage.setItem('user', JSON.stringify(newUser));
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        }
 
         $('form').submit(() => {
           socket.emit('chat message', $('#m').val());

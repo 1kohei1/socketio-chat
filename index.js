@@ -19,13 +19,15 @@ const option =  {
 }
 
 // Connect to database
-const promise = mongoose.connect(dbUri, option)
-    .then((db) => {
-        console.log('Connected to database');
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+const promise = mongoose.connect(dbUri, {
+    useMongoClient: true    
+})
+.then((db) => {
+    console.log('Connected to database');
+})
+.catch((err) => {
+    console.log(err);
+});
 
 // Load models
 require('./server/models');
