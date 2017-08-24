@@ -48,7 +48,7 @@ api.getMessages = () => {
     .then(response => response.json())
     .then(response => {
         if (response.success) {
-            return Promise.resolve(messages);
+            return Promise.resolve(response.data.messages);
         } else {
             return Promise.reject(response.data.message);
         }

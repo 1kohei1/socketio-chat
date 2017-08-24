@@ -8,35 +8,13 @@
   </head>
   <body>
     <div id="header">西武文理高校chat</div>
-    <div id="messages">
-      <div class="balloon6">
-        <div class="faceicon">
-          <i class="fa fa-user-circle-o fa-6x user-icon" aria-hidden="true"></i>
-        </div>
-        <div class="chatting">
-          <div class="says">
-            <p>Test 1</p>
-          </div>
-        </div>
-      </div>
-      <div class="balloon6">
-        <div class="faceicon">
-          <i class="fa fa-user-circle-o fa-6x user-icon" aria-hidden="true"></i>
-        </div>
-        <div class="chatting">
-          <div class="says">
-            <p>Test 2</p>
-          </div>
-        </div>
-      </div>
-      <div class="mycomment">
-        <p>Test 3</p>
-      </div>
-    </div>
+    <div id="messages"></div>
     <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
+      <input id="m" autocomplete="off" placeholder="Enter a message"/><button>Send</button>
     </form>
     <script src="lodash.js"></script>
+    <script src="promise-polyfill.js"></script>
+    <script src="fetch-polyfill.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="api-interface.js"></script>
@@ -108,7 +86,6 @@
         });
 
         $('form').submit((event) => {
-          event.preventDefault();
           const val = $('#m').val();
           
           api.newMessage(user._id, val)
@@ -118,6 +95,8 @@
           .catch(err => {
             console.log(err);
           });
+
+          return false;
         });
 
 
