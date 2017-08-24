@@ -1,6 +1,9 @@
-const userController = require('../controllers/users.server.controller');
+const usersController = require('../controllers/users.server.controller');
 
 module.exports = function(app) {
     app.route('/api/users')
-        .post(userController.createUser);
+        .post(usersController.createUser);
+
+    app.route('/api/users/:user_id/on_login')
+        .post(usersController.onLogin);
 }

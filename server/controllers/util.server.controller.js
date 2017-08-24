@@ -18,6 +18,12 @@ module.exports.logFailure = (err, res, apiInfo) => {
 
     res.json({
         success: false,
-        message
+        data: {
+            message
+        }
     });
+}
+
+module.exports.socketLog = (title, data) => {
+    console.log(`[SOCKET_LOG] title: ${title} data: ${JSON.stringify(data)}`);
 }

@@ -18,13 +18,14 @@
       $(function () {
         var socket = io();
 
-        const user = localStorage.getItem('user');
+        let user = localStorage.getItem('user');
 
-        if (isUserDefined) {
+        if (user) {
 
         } else {
           api.createUser()
           .then(newUser => {
+            user = newUser;
             localStorage.setItem('user', JSON.stringify(newUser));
           })
           .catch(err => {
@@ -37,8 +38,8 @@
           $('#m').val('');
           return false;
         })
-        socket.on('chat message', (msg) => {
-            $('#messages').append($('<li>').text(msg));
+        socket.on('new_message', (message) => {
+          console.log(message);
         })
       })
     </script>

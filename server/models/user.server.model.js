@@ -5,6 +5,7 @@ const UserSchema = mongoose.Schema({
     username: String,
     thumbnail_url: String,
     logoff_at: Date,
+    is_online: Boolean,
     created_at: Date
 });
 

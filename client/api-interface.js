@@ -10,6 +10,7 @@ api.createUser = () => {
             username: randomUser.login.username,
             thumbnail_url: randomUser.picture.thumbnail,
             logoff_at: null,
+            is_online: true,
             created_at: new Date()
         };
         return fetch('/api/users', {
@@ -21,9 +22,9 @@ api.createUser = () => {
     .then(response => response.json())
     .then(response => {
         if (response.success) {
-            return Promise.resolve(response.user);
+            return Promise.resolve(response.data.user);
         } else {
-            return Promise.reject(response.message);
+            return Promise.reject(response.data.message);
         }
     })
 };
