@@ -3,6 +3,8 @@ const path = require('path');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const _ = require('lodash');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const socketInterface = require('./server/controllers/socket-interface');
 const helper = require('./helper.js');
 
@@ -18,6 +20,9 @@ _.forEach(helper.getGlobbedFiles('./server/routes/*.js'), function(routePath) {
 app.get('*', (req, res) => {
     res.sendFile(__dirname + `/client/${req.originalUrl}`);
 });
+
+// 
+app.use(bodyParser.json());
 
 io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {

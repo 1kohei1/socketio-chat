@@ -10,9 +10,11 @@
     "npm": "4.6.1"
   },
   "dependencies": {
+    "body-parser": "^1.17.2",
     "express": "^4.15.2",
     "grab": "0.0.7",
     "lodash": "^4.17.4",
+    "mongoose": "^4.11.8",
     "socket.io": "^2.0.3"
   }
 }
