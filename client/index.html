@@ -21,7 +21,15 @@
         let user = localStorage.getItem('user');
 
         if (user) {
-
+          user = JSON.parse(user);
+          api.onLogin(user._id)
+          .then(newUser => {
+            user = newUser;
+            localStorage.setItem('user', JSON.stringify(newUser));
+          })
+          .catch(err => {
+            console.log(err);
+          })
         } else {
           api.createUser()
           .then(newUser => {
@@ -33,13 +41,33 @@
           });
         }
 
-        $('form').submit(() => {
-          socket.emit('chat message', $('#m').val());
-          $('#m').val('');
-          return false;
+        const displayMessages = (messages) => {
+          const html = [];
+          _.forEach(messages, message => {
+            html.push(`<p>${message.message}</p>`);
+          });
+          $('#messages').append(html);
+        }
+
+        api.getMessages()
+        .then(messages => {
+          displayMessages(messages);
+        });
+
+        $('form').submit((event) => {
+          event.preventDefault();
+          const val = $('#m').val();
+          
+          api.newMessage(user._id, val)
+          .then(() => {
+            $('#m').val('');
+          })
+          .catch(err => {
+            console.log(err);
+          });
         })
         socket.on('new_message', (message) => {
-          console.log(message);
+          displayMessages([message]);
         })
       })
     </script>

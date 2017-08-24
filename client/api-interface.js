@@ -29,8 +29,54 @@ api.createUser = () => {
     })
 };
 
-api.logonUser = (user) => {
-    console.log('logonUser');
+api.onLogin = (user_id) => {
+    return fetch(`/api/users/${user_id}/on_login`, {
+        method: 'POST',
+        headers: headers()
+    })
+    .then(response => response.json())
+    .then(response => {
+        if (response.success) {
+            return Promise.resolve(response.data.user);
+        } else {
+            return Promise.reject(response.data.message);
+        }
+    })
+}
+
+api.getMessages = () => {
+    return fetch('/api/messages')
+    .then(response => response.json())
+    .then(response => {
+        if (response.success) {
+            return Promise.resolve(response.data.messages);
+        } else {
+            return Promise.reject(response.data.message);
+        }
+    })
+}
+
+api.newMessage = (user_id, val) => {
+    const message = {
+        sender: user_id,
+        message: val,
+        sent_at: new Date(),
+        created_at: new Date()
+    };
+
+    return fetch('/api/messages', {
+        method: 'POST',
+        body: JSON.stringify(message),
+        headers: headers()
+    })
+    .then(response => response.json())
+    .then(response => {
+        if (response.success) {
+            return Promise.resolve();
+        } else {
+            return Promise.reject(response.data.message);
+        }
+    })
 }
 
 const headers = () => {

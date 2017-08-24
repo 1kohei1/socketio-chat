@@ -14,7 +14,7 @@ module.exports.getMessages = (req, res) => {
 
     // Do not do pagination at this point.
     models.message.find()
-    .sort({sent_at: 'desc'})
+    .sort({sent_at: 'asc'})
     .populate('sender')
     .then(messages => {
         util.logSuccess(apiInfo);
