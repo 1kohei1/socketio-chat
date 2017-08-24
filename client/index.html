@@ -1,13 +1,13 @@
 <!doctype html>
 <html>
   <head>
-    <script src="https://use.fontawesome.com/02aa439275.js"></script>
-    <title>西武文理chat</title>
+    <script src="https://use.fontawesome.com/7747f09f32.js"></script>
+    <title>Demo chat</title>
     <link rel="stylesheet" href="normalize.css">
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <div id="header">西武文理高校chat</div>
+    <div id="header">Demo chat</div>
     <div id="messages"></div>
     <form action="">
       <input id="m" autocomplete="off" placeholder="Enter a message"/><button>Send</button>
@@ -26,7 +26,7 @@
 
         const getUser = () => {
           if (user) {
-            return api.onLogin(JSON.parse(user)._id)
+            return Promise.resolve(JSON.parse(user));
           } else {
             return api.createUser();
           }
@@ -99,6 +99,9 @@
           return false;
         });
 
+        $('#m').focus(event => {
+          window.scrollTo(0, document.body.scrollHeight);
+        });
 
         socket.on('new_message', (message) => {
           displayMessages([message]);
