@@ -8,6 +8,28 @@ const mongoose = require('mongoose');
 const socketInterface = require('./server/controllers/socket-interface');
 const helper = require('./helper.js');
 
+// Parse body
+app.use(bodyParser.json());
+
+// Use native promise
+mongoose.Promise = global.Promise;
+const dbUri = process.env.DB_URI || 'mongodb://localhost:27017/socketio-chat';
+const option =  {
+    useMongoClient: true    
+}
+
+// Connect to database
+const promise = mongoose.connect(dbUri, option)
+    .then((db) => {
+        console.log('Connected to database');
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
+// Load models
+require('./server/models');
+
 // Set socket io to the file
 socketInterface.setSocketIo(io);
 
@@ -20,9 +42,6 @@ _.forEach(helper.getGlobbedFiles('./server/routes/*.js'), function(routePath) {
 app.get('*', (req, res) => {
     res.sendFile(__dirname + `/client/${req.originalUrl}`);
 });
-
-// 
-app.use(bodyParser.json());
 
 io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
