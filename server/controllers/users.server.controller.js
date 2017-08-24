@@ -30,5 +30,39 @@ module.exports.createUser = (req, res) => {
 }
 
 module.exports.onLogin = (req, res) => {
+    const apiData = {};
+    const apiInfo = {
+        tag: 'ON_LOGIN',
+        logInfo: {
+            user_id: req.params.user_id
+        }
+    }
 
+    res.json({})
+}
+
+module.exports.onLogoff = (req, res) => {
+    const apiData = {};
+    const apiInfo = {
+        tag: 'ON_LOGOFF',
+        logInfo: {
+            user_id: req.params.user_id
+        }
+    }
+
+    models.user.findOneAndUpdate({
+        _id: req.params.user_id
+    }, {
+        logoff_at: new Date()
+    })
+    .then(user => {
+        util.logSuccess(apiInfo);
+        res.json({
+            success: true,
+            data: {}
+        });
+    })
+    .catch(err => {
+        util.logFailure(err, res, apiInfo);
+    })
 }
