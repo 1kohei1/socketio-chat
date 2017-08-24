@@ -1,12 +1,38 @@
 <!doctype html>
 <html>
   <head>
+    <script src="https://use.fontawesome.com/02aa439275.js"></script>
     <title>西武文理chat</title>
     <link rel="stylesheet" href="normalize.css">
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <ul id="messages"></ul>
+    <div id="header">西武文理高校chat</div>
+    <div id="messages">
+      <div class="balloon6">
+        <div class="faceicon">
+          <i class="fa fa-user-circle-o fa-6x user-icon" aria-hidden="true"></i>
+        </div>
+        <div class="chatting">
+          <div class="says">
+            <p>Test 1</p>
+          </div>
+        </div>
+      </div>
+      <div class="balloon6">
+        <div class="faceicon">
+          <i class="fa fa-user-circle-o fa-6x user-icon" aria-hidden="true"></i>
+        </div>
+        <div class="chatting">
+          <div class="says">
+            <p>Test 2</p>
+          </div>
+        </div>
+      </div>
+      <div class="mycomment">
+        <p>Test 3</p>
+      </div>
+    </div>
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
@@ -20,38 +46,65 @@
 
         let user = localStorage.getItem('user');
 
-        if (user) {
-          user = JSON.parse(user);
-          api.onLogin(user._id)
-          .then(newUser => {
-            user = newUser;
-            localStorage.setItem('user', JSON.stringify(newUser));
-          })
-          .catch(err => {
-            console.log(err);
-          })
-        } else {
-          api.createUser()
-          .then(newUser => {
-            user = newUser;
-            localStorage.setItem('user', JSON.stringify(newUser));
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        const getUser = () => {
+          if (user) {
+            return api.onLogin(JSON.parse(user)._id)
+          } else {
+            return api.createUser();
+          }
         }
 
         const displayMessages = (messages) => {
           const html = [];
           _.forEach(messages, message => {
-            html.push(`<p>${message.message}</p>`);
+            if (message.sender._id === user._id) {
+              html.push(myMessage(message));
+            } else {
+              html.push(otherMessage(message));
+            }
           });
           $('#messages').append(html);
         }
 
-        api.getMessages()
+        const otherMessage = (message) => {
+          return `
+          <div class="balloon6">
+            <div class="faceicon">
+              <i class="fa fa-user-circle-o fa-6x user-icon" aria-hidden="true"></i>
+            </div>
+            <div class="chatting">
+              <div class="says">
+                <p>${message.message}</p>
+              </div>
+            </div>
+          </div>
+          `;
+        }
+
+        const myMessage = (message) => {
+          return `
+          <div class="mycomment">
+            <p>${message.message}</p>
+          </div>
+          `
+        }
+
+        getUser()
+        .then(returnedUser => {
+          user = returnedUser;
+          localStorage.setItem('user', JSON.stringify(user));
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .then(() => {
+          return api.getMessages();
+        })
         .then(messages => {
           displayMessages(messages);
+        })
+        .catch(err => {
+          console.log(err);
         });
 
         $('form').submit((event) => {
@@ -65,7 +118,9 @@
           .catch(err => {
             console.log(err);
           });
-        })
+        });
+
+
         socket.on('new_message', (message) => {
           displayMessages([message]);
         })

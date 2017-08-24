@@ -20,7 +20,6 @@
 - user_id: ObjectId
 - name: String
 - userrname: String
-- thumbnail_url: String
 - logoff_at: Date
 - created_at: Date
 

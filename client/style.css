@@ -1,8 +1,110 @@
+body { 
+    font: 3rem Helvetica, Arial;
+    background: url('line_background.png') no-repeat center center fixed;
+    background-size: 100%;
+}
+
+.fa-6x {
+    font-size: 6rem;
+}
+
+#header {
+    background-color: #2A364D;
+    height: 10vh;
+    line-height: 10vh;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    color: white;
+}
+
+#messages { 
+    margin: 10px;
+    padding: 0;
+    padding-top: 10vh;
+    text-align: right;
+}
+
+/* CSS for chat. Reference: https://saruwakakun.com/html-css/reference/speech-bubble */
+.balloon6 {
+    width: 100%;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.balloon6 .faceicon {
+    float: left;
+    margin-right: -50px;
+    width: 40px;
+}
+
+.balloon6 .faceicon img{
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+.balloon6 .chatting {
+    width: 100%;
+    text-align: left;
+}
+.says {
+    display: inline-block;
+    position: relative; 
+    margin: 0 0 0 12vw;
+    padding: 10px;
+    max-width: 60vw;
+    border-radius: 12px;
+    background: #edf1ee;
+}
+
+.says:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 3px; 
+    left: -30px;
+    border: 8px solid transparent;
+    border-right: 30px solid #edf1ee;
+    -ms-transform: rotate(35deg);
+    -webkit-transform: rotate(35deg);
+    transform: rotate(35deg);
+}
+.says p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Something I said */
+.mycomment {
+    margin: 10px 0;
+}
+.mycomment p{
+    display: inline-block;
+    position: relative; 
+    margin: 0 20px 0 0;
+    padding: 8px;
+    max-width: 60vh;
+    border-radius: 12px;
+    background: #30e852;
+}
+
+.mycomment p:after {
+    content: "";
+    position: absolute;
+    top: 3px; 
+    right: -30px;
+    border: 8px solid transparent;
+    border-left: 30px solid #30e852;
+    -ms-transform: rotate(-35deg);
+    -webkit-transform: rotate(-35deg);
+    transform: rotate(-35deg);
+}
+
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font: 13px Helvetica, Arial; }
 form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
 form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
 form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-#messages { list-style-type: none; margin: 0; padding: 0; }
 #messages li { padding: 5px 10px; }
 #messages li:nth-child(odd) { background: #eee; }

@@ -8,7 +8,6 @@ api.createUser = () => {
         const user = {
             name: `${_.capitalize(randomUser.name.first)} ${_.capitalize(randomUser.name.last)}`,
             username: randomUser.login.username,
-            thumbnail_url: randomUser.picture.thumbnail,
             logoff_at: null,
             is_online: true,
             created_at: new Date()
@@ -49,7 +48,7 @@ api.getMessages = () => {
     .then(response => response.json())
     .then(response => {
         if (response.success) {
-            return Promise.resolve(response.data.messages);
+            return Promise.resolve(messages);
         } else {
             return Promise.reject(response.data.message);
         }
