@@ -8,12 +8,14 @@ const mongoose = require('mongoose');
 const socketInterface = require('./server/controllers/socket-interface');
 const helper = require('./helper.js');
 
+const PORT = process.env.PORT || 3000;
+
 // Parse body
 app.use(bodyParser.json());
 
 // Use native promise
 mongoose.Promise = global.Promise;
-const dbUri = process.env.DB_URI || 'mongodb://localhost:27017/socketio-chat';
+const dbUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/socketio-chat';
 const option =  {
     useMongoClient: true    
 }
@@ -51,6 +53,6 @@ io.on('connection', (socket) => {
     });
 });
 
-http.listen(3000, () => {
-    console.log('listening on *:3000');
+http.listen(PORT, () => {
+    console.log(`listening on *:${PORT}`);
 })
